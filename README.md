@@ -7,7 +7,7 @@ A minimal vector search implementation leveraging **Scaled Dot-Product Attention
 
 Applying the attention function in this manner ultimately allows for rapid and simultaneous [dot product] scoring of N number of possible search results.
 
-#### Examples:
+#### Usage:
 
 ```python
 # search index
@@ -25,7 +25,7 @@ attention_search(query, emb, values, n_results=2)
 
 ```
 
-[See Notebook](notebooks/)
+[See Notebook for more examples](notebooks/)
 
 ---
 **References**:

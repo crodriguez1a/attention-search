@@ -58,7 +58,7 @@ def attention_search(
     verbose: bool = False,
 ):
     """
-    Apply scaled dot product attention, map indices to values
+    Apply scaled dot product attention, then map indices to values
     """
     tic = time.perf_counter()
 
