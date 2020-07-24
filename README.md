@@ -9,7 +9,7 @@ Applying the attention function in this manner ultimately allows for rapid and s
 
 #### Examples:
 
-```
+```python
 # search index
 values = ["apples", "cookies", "oranges", "grapes"]
 
