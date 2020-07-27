@@ -53,20 +53,23 @@ def scaled_dot_product_attention(
 def attention_search(
     query: np.ndarray,
     index: np.ndarray,
-    values: List[str],
+    values: List[str] = None,
     n_results: int = 3,
     verbose: bool = False,
-):
+) -> tuple:
     """
     Apply scaled dot product attention, then map indices to values
     """
     tic = time.perf_counter()
 
     _, indices = scaled_dot_product_attention(query, index, n_results=n_results)
-    results = [values[i] for i in indices]
+
+    mapped_values: list = []
+    if values and max(indices) < len(values):
+        mapped_values = [values[i] for i in indices]
 
     if verbose:
         toc = time.perf_counter()
         print(f"Searched {index.shape[0]} records in {toc - tic:0.4f} seconds")
 
-    return results
+    return mapped_values, indices
