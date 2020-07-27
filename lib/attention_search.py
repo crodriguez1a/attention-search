@@ -56,7 +56,7 @@ def attention_search(
     values: List[str] = None,
     n_results: int = 3,
     verbose: bool = False,
-):
+) -> tuple:
     """
     Apply scaled dot product attention, then map indices to values
     """
