@@ -5,7 +5,7 @@ description = ""
 authors = ["crodriguez1a <crodriguez1a@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.7.5"
 numpy = "<1.19.0"
 
 
@@ -17,17 +17,13 @@ mypy = "^0.782"
 isort = "^5.1.4"
 pytest = "^5.4.3"
 jupyter = "^1.0.0"
-tabulate = "^0.8.7"
 pandas = "^1.0.5"
 matplotlib = "^3.3.0"
-nmslib = "^2.0.6"
-cffi = "^1.14.0"
 tensorflow = "2.3.0-rc1"
 torch = "^1.5.1"
 tensorflow_hub = "^0.8.0"
 tensorflow-text = "2.3.0-rc1"
 taskipy = "^1.2.1"
-invoke = "^1.4.1"
 snakeviz = "^2.1.0"
 ipyplot = "^1.0.5"
 
