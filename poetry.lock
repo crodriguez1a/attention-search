@@ -332,6 +332,19 @@ test = ["pytest (!=5.3.4)", "pytest-cov", "flaky", "nose"]
 
 [[package]]
 category = "dev"
+description = "Simple package that leverages IPython and HTML for more efficient, reach and interactive plotting of images in Jupyter Notebooks"
+name = "ipyplot"
+optional = false
+python-versions = "*"
+version = "1.0.5"
+
+[package.dependencies]
+IPython = "*"
+numpy = "*"
+pillow = "*"
+
+[[package]]
+category = "dev"
 description = "IPython: Productive Interactive Computing"
 name = "ipython"
 optional = false
@@ -1155,6 +1168,17 @@ version = "1.15.0"
 
 [[package]]
 category = "dev"
+description = "A web-based viewer for Python profiler output"
+name = "snakeviz"
+optional = false
+python-versions = "*"
+version = "2.1.0"
+
+[package.dependencies]
+tornado = ">=2.0"
+
+[[package]]
+category = "dev"
 description = "Pretty-print tabular data"
 name = "tabulate"
 optional = false
@@ -1440,7 +1464,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "6b823d60f3b2ce266b8b0ad282919861cec5357c4e886ea7eb9e2f528b56d8c0"
+content-hash = "be0083bcdfba8d7939db5bcf60b37be015d3394ef8c573de2951eb63ed48dafb"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1648,6 +1672,10 @@ invoke = [
 ipykernel = [
     {file = "ipykernel-5.3.3-py3-none-any.whl", hash = "sha256:d718d5f717e0818329d371313f99aabba1bf4ca13f1e9f80cc3c5f866ee8a9ad"},
     {file = "ipykernel-5.3.3.tar.gz", hash = "sha256:09bac6473a593f61a3ae036035b81a2d30457ff157163562796560516a2f67d8"},
+]
+ipyplot = [
+    {file = "ipyplot-1.0.5-py3-none-any.whl", hash = "sha256:09f316f16bc77a0c9c6ae1d4b6560cd4b57cf76dd8262d9f7e67c8873a5dd6fb"},
+    {file = "ipyplot-1.0.5.tar.gz", hash = "sha256:d5d3fa04b8d3e1960435fceb62e13b7e9e575920ce1c4ae734dfeb773b7645b1"},
 ]
 ipython = [
     {file = "ipython-7.16.1-py3-none-any.whl", hash = "sha256:2dbcc8c27ca7d3cfe4fcdff7f45b27f9a8d3edfa70ff8024a71c7a8eb5f09d64"},
@@ -2210,6 +2238,10 @@ send2trash = [
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
+]
+snakeviz = [
+    {file = "snakeviz-2.1.0-py2.py3-none-any.whl", hash = "sha256:8ce375b18ae4a749516d7e6c6fbbf8be6177c53974f53534d8eadb646cd279b1"},
+    {file = "snakeviz-2.1.0.tar.gz", hash = "sha256:92ad876fb6a201a7e23a6b85ea96d9643a51e285667c253a8653643804f7cb68"},
 ]
 tabulate = [
     {file = "tabulate-0.8.7-py3-none-any.whl", hash = "sha256:ac64cb76d53b1231d364babcd72abbb16855adac7de6665122f97b593f1eb2ba"},
