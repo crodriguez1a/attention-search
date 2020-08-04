@@ -1,4 +1,4 @@
-from lib.attention_search import *
+from src.attention_search import *
 
 
 def test_dot_product():
