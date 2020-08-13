@@ -299,6 +299,19 @@ version = "2.10"
 
 [[package]]
 category = "dev"
+description = "Use pre-trained models in PyTorch to extract vector embeddings for any image"
+name = "img2vec-pytorch"
+optional = false
+python-versions = ">=3.6"
+version = "0.2.5"
+
+[package.dependencies]
+numpy = "*"
+torch = "*"
+torchvision = "*"
+
+[[package]]
+category = "dev"
 description = "Read metadata from Python packages"
 marker = "python_version < \"3.8\""
 name = "importlib-metadata"
@@ -1322,11 +1335,38 @@ numpy = "*"
 
 [[package]]
 category = "dev"
+description = "image and video datasets and models for torch deep learning"
+name = "torchvision"
+optional = false
+python-versions = "*"
+version = "0.6.1"
+
+[package.dependencies]
+numpy = "*"
+pillow = ">=4.1.1"
+torch = "1.5.1"
+
+[package.extras]
+scipy = ["scipy"]
+
+[[package]]
+category = "dev"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
 name = "tornado"
 optional = false
 python-versions = ">= 3.5"
 version = "6.0.4"
+
+[[package]]
+category = "dev"
+description = "Fast, Extensible Progress Meter"
+name = "tqdm"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.48.2"
+
+[package.extras]
+dev = ["py-make (>=0.1.0)", "twine", "argopt", "pydoc-markdown"]
 
 [[package]]
 category = "dev"
@@ -1445,7 +1485,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "56262dbba25ef7679e5bffc43db682c885d5b6aec8c17ab3c4f084005e97edb6"
+content-hash = "05c7cd713a0a80ca7a78fd7d1e2f0804d145e82e96ac05d5d5f904300dd8cd48"
 python-versions = "^3.7.5"
 
 [metadata.files]
@@ -1614,6 +1654,9 @@ h5py = [
 idna = [
     {file = "idna-2.10-py2.py3-none-any.whl", hash = "sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0"},
     {file = "idna-2.10.tar.gz", hash = "sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6"},
+]
+img2vec-pytorch = [
+    {file = "img2vec_pytorch-0.2.5.tar.gz", hash = "sha256:668e2f8916b388d6bf749736a45c24dfcb541541a881b9ff71221d431275cb9a"},
 ]
 importlib-metadata = [
     {file = "importlib_metadata-1.7.0-py2.py3-none-any.whl", hash = "sha256:dc15b2969b4ce36305c51eebe62d418ac7791e9a157911d58bfb1f9ccd8e2070"},
@@ -2202,6 +2245,16 @@ torch = [
     {file = "torch-1.5.1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:c42658f2982591dc4d0459645c9ab26e0ce18aa7ab0993c27c8bcb1c98931d11"},
     {file = "torch-1.5.1-cp38-none-macosx_10_9_x86_64.whl", hash = "sha256:ff1dbeaa017bae66036e8e7a698a5475ac5a0d7b0a690f0a04ac3b1133b1feb3"},
 ]
+torchvision = [
+    {file = "torchvision-0.6.1-cp35-cp35m-macosx_10_6_x86_64.whl", hash = "sha256:eb6d7ef73ab8ed756d18c1c11ead3ba1be7b3e2fe5bf475e16a4426d7f3d6eec"},
+    {file = "torchvision-0.6.1-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:c122386a4604a6b611626d817981777bb06e747161a4954e4037c2e297fe1d86"},
+    {file = "torchvision-0.6.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:9a544f241e1df7485c1fda64f06af4962ad4af1da6caeda352757ea800dd794d"},
+    {file = "torchvision-0.6.1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:c44819c3c903f2d6d269713a9aa81a9dcb0ab7716b4fc4dbdccf596e6fe894c9"},
+    {file = "torchvision-0.6.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:b07e7c5a7274082a8bbe88975c817da10bffaf4020017347d185b5d4eacb891d"},
+    {file = "torchvision-0.6.1-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:52be3710bf495fee9eb8f1cb4d310edd2da94b127b2ca0aa77075c1001bcbb91"},
+    {file = "torchvision-0.6.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:80a8beaa3416035c9640d153b1f0a7c9b09aac8037a032bbc33fd4bc8657b091"},
+    {file = "torchvision-0.6.1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:3af59c61d20bb0bb63dbd50f324fcd975fc5b89fb78e6b5714ae613cd7b734cc"},
+]
 tornado = [
     {file = "tornado-6.0.4-cp35-cp35m-win32.whl", hash = "sha256:5217e601700f24e966ddab689f90b7ea4bd91ff3357c3600fa1045e26d68e55d"},
     {file = "tornado-6.0.4-cp35-cp35m-win_amd64.whl", hash = "sha256:c98232a3ac391f5faea6821b53db8db461157baa788f5d6222a193e9456e1740"},
@@ -2212,6 +2265,10 @@ tornado = [
     {file = "tornado-6.0.4-cp38-cp38-win32.whl", hash = "sha256:22aed82c2ea340c3771e3babc5ef220272f6fd06b5108a53b4976d0d722bcd52"},
     {file = "tornado-6.0.4-cp38-cp38-win_amd64.whl", hash = "sha256:c58d56003daf1b616336781b26d184023ea4af13ae143d9dda65e31e534940b9"},
     {file = "tornado-6.0.4.tar.gz", hash = "sha256:0fe2d45ba43b00a41cd73f8be321a44936dc1aba233dee979f17a042b83eb6dc"},
+]
+tqdm = [
+    {file = "tqdm-4.48.2-py2.py3-none-any.whl", hash = "sha256:1a336d2b829be50e46b84668691e0a2719f26c97c62846298dd5ae2937e4d5cf"},
+    {file = "tqdm-4.48.2.tar.gz", hash = "sha256:564d632ea2b9cb52979f7956e093e831c28d441c11751682f84c86fc46e4fd21"},
 ]
 traitlets = [
     {file = "traitlets-4.3.3-py2.py3-none-any.whl", hash = "sha256:70b4c6a1d9019d7b4f6846832288f86998aa3b9207c6821f3578a6a6a467fe44"},

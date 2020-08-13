@@ -12,3 +12,6 @@ data/
 profiles/
 
 *.mat
+
+pip-wheel-metadata/
+*.egg-info

@@ -26,6 +26,8 @@ tensorflow-text = "2.3.0-rc1"
 taskipy = "^1.2.1"
 snakeviz = "^2.1.0"
 ipyplot = "^1.0.5"
+img2vec_pytorch = "^0.2.5"
+tqdm = "^4.48.2"
 
 [tool.taskipy.tasks]
 test = "python -m pytest"
