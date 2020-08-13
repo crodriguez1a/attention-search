@@ -1,11 +1,22 @@
 from src.attention_search import *
 
-
-def test_dot_product():
+# TODO Fix this
+def test_mat_mult():
     a = np.zeros((1, 1024))
     b = np.zeros((100, 1024))
     output = np.zeros((1, 100))
-    assert (dot_product(a, b) == output).all()
+    assert (mat_mult(a, b) == output).all()
+
+
+def test_mat_mult_uneven_dims():
+    # 2,3
+    si = np.zeros((559, 103, 128))
+    q = np.zeros((103, 128))
+
+    y = mat_mult(q, si)
+    output = np.zeros(((559, 103, 103)))
+
+    assert np.allclose(y, output)
 
 
 def test_einstein_summation():
@@ -41,7 +52,9 @@ def test_nd_indices_from_weights():
     x[9][0][0] = 1
     x[9][0][1] = 1
 
-    _, indices = attention_search(np.ones((3, 2, 2)), x, n_results=2, verbose=True)
+    _, indices = attention_search(
+        np.ones((3, 2, 2)), x, n_results=2, display_timing=True
+    )
     assert (indices == np.array([9, 2])).all()
 
 
@@ -54,7 +67,7 @@ def test_2d_indices_from_weights():
     x[9][0] = 1
     x[9][1] = 1
 
-    _, indices = attention_search(np.ones((1, 2)), x, n_results=2, verbose=True)
+    _, indices = attention_search(np.ones((1, 2)), x, n_results=2, display_timing=True)
     assert (indices == np.array([9, 2])).all()
 
 
@@ -71,7 +84,7 @@ def test_can_safely_map_indices_to_values():
     assert res is not None
 
 
-def test_can_safely_ignore_mapping_with_bad_values():
+def test_can_safely_ignore_mapping_with_not_enough_values():
 
     mv, i = attention_search(
         np.zeros(4).reshape((1, 4)),

@@ -17,13 +17,14 @@ def indices_from_weights(
     X: np.ndarray = weights
     ndim = X.ndim
 
+    # TODO: dry this up with np.squeeze(ndim)?
     if ndim == 4:
         # argsort, max on top, then retrieve a 1D sub-array from a 4D-array
         return np.argsort(X[:, 0, 0, 0], axis=0)[::-1]
     elif ndim == 3:
         return np.argsort(X[:, 0, 0], axis=0)[::-1]
     else:
-        # # argsort, max on top
+        # argsort, max on top
         if not full_attention:
             return np.argsort(X[0, :])[::-1]
 
@@ -52,46 +53,28 @@ def softmax(x: np.ndarray, axis: int = -1):
     return np.divide(e_x, e_x.sum(axis=axis, keepdims=True))
 
 
-def dot_product(query: np.ndarray, si: np.ndarray) -> np.ndarray:
+def mat_mult(
+    query: np.ndarray, si: np.ndarray, n_results: int = 3
+) -> Tuple[Any, List[Any]]:
     """
     Calculate the Euclidean magnitudes of the two vectors and the cosine
     of the angle between them for all the possible search results
     in one step using matrix multiplication (this is the magic)
     """
-    return np.matmul(query, np.transpose(si))
-
-
-def einstein_summation(q: np.ndarray, si: np.ndarray, optim_threshold: int = 30000):
-    """
-    Einstein summation convention is a notational convention that implies
-    summation over a set of indexed terms
-    """
-    # https://stackoverflow.com/questions/26089893/understanding-numpys-einsum
-    # TODO: Explain this further
-
-    # optimization plateaus at about 30000 indices at which the cost
-    # of computing the optimization is too high
-    above_threshold: bool = si.shape[0] > optim_threshold
-    path = (
-        np.einsum_path("ijkl,jkl->ijkl", si, q, optimize="optimal")[0]
-        if above_threshold
-        else None
-    )
-
-    # shapes of input matrices a,b -> shape of output matrix z
-    return np.einsum("ijkl,jkl->ijkl", si, q, optimize=path)
-
-
-def mat_mult(
-    query: np.ndarray, si: np.ndarray, n_results: int = 3
-) -> Tuple[Any, List[Any]]:
-    "Compute Matrix Multiplication"
 
     matmul_qsi: np.ndarray = None
-    if query.ndim == 3:
-        matmul_qsi = einstein_summation(query, si)
+
+    # TODO: consider moving complex products to __dot__
+    uneven_notations: dict = {(3, 4): "ijkl,jkl->ijkl", (4, 5): "ijklm,jklm->ijklm"}
+
+    comb = (query.ndim, si.ndim)
+    if comb in uneven_notations:
+        matmul_qsi = np.einsum(uneven_notations[comb], si, query, optimize="greedy")
+    elif comb == (2, 3):
+        # TODO: explain this
+        matmul_qsi = np.matmul(si, np.transpose(query))
     else:
-        matmul_qsi = dot_product(query, si)
+        matmul_qsi = np.matmul(query, np.transpose(si))
 
     return matmul_qsi
 
@@ -143,42 +126,47 @@ def attention_search(
     values: Sequence[Any] = None,
     n_results: int = 3,
     full_attention: bool = False,
+    display_timing: bool = False,
     verbose: bool = False,
+    __dot__: np.ndarray = None,
 ) -> tuple:
     """
     Apply scaled dot product attention, then map indices to values
     """
-    tic = time.perf_counter()
-
-    mat_product = mat_mult(query, si, n_results=n_results)
-
+    timing_start: float = time.perf_counter()
     full_index: list = []
     indices: list = []
     mapped_values: list = []
+    attended_vector: np.ndarray = None
+
+    # TODO: document __dot__ example
+    mat_product: np.ndarray = __dot__ or mat_mult(query, si, n_results=n_results)
 
     if not full_attention:
-        # Dot product is all you need
-        indices = indices_from_weights(
-            mat_product, n_results, full_attention=full_attention
-        )
+        # If dot product is all you need
+        attended_vector = mat_product
     else:
-        # Compared to full attention steps
+        # NOTE: full atention creates less complex ouput which sorts faster
+        # for a large number of results, full attention is more performant
         attn_weights: np.ndarray = scaled_attention_weights(mat_product, si)
         attended_weights: np.ndarray = apply_self_attention(attn_weights, si)
         attended_vector: np.ndarray = find_attn_vector(attended_weights)
 
-        # NOTE: full atention creates less complex ouput which sorts faster
-        # for a large number of results, full attention is more performant
-        # TODO: explain this further
-        indices = indices_from_weights(
-            attended_vector, n_results, full_attention=full_attention
-        )
+    indices = indices_from_weights(
+        attended_vector, n_results, full_attention=full_attention
+    )
 
     mapped_values = map_values(values, indices)
 
+    if display_timing:
+        timing_end: float = time.perf_counter()
+        print(
+            f"Searched {si.shape[0]} records in {timing_end - timing_start:0.4f} seconds"
+        )
+
     if verbose:
-        toc = time.perf_counter()
-        print(f"Searched {si.shape[0]} records in {toc - tic:0.4f} seconds")
+        # TODO document
+        return {"values": mapped_values, "indices": indices, "weights": attended_vector}
 
     return mapped_values[:n_results], indices[:n_results]
 
@@ -193,5 +181,10 @@ if __name__ == "__main__":
     q: np.ndarray = vecs[qidx]
     si: np.ndarray = vecs
     attention_search(
-        q, si[: qidx + 1], labels, n_results=5, full_attention=False, verbose=True
+        q,
+        si[: qidx + 1],
+        labels,
+        n_results=5,
+        full_attention=False,
+        display_timing=True,
     )
