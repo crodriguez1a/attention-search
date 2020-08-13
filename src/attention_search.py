@@ -1,5 +1,5 @@
 import time
-from typing import Any, List, Sequence, Tuple
+from typing import Any, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -113,7 +113,7 @@ def find_attn_vector(applied_attention):
     return np.sum(applied_attention, axis=1)
 
 
-def map_values(values: Sequence[Any], indices: List[int]) -> list:
+def map_values(values: Optional[Sequence[Any]], indices: List[int]) -> list:
     if values and max(indices) < len(values):
         return [values[i] for i in indices]
     else:
@@ -134,7 +134,6 @@ def attention_search(
     Apply scaled dot product attention, then map indices to values
     """
     timing_start: float = time.perf_counter()
-    full_index: list = []
     indices: list = []
     mapped_values: list = []
     attended_vector: np.ndarray = None
@@ -150,7 +149,7 @@ def attention_search(
         # for a large number of results, full attention is more performant
         attn_weights: np.ndarray = scaled_attention_weights(mat_product, si)
         attended_weights: np.ndarray = apply_self_attention(attn_weights, si)
-        attended_vector: np.ndarray = find_attn_vector(attended_weights)
+        attended_vector = find_attn_vector(attended_weights)
 
     indices = indices_from_weights(
         attended_vector, n_results, full_attention=full_attention
@@ -165,8 +164,11 @@ def attention_search(
         )
 
     if verbose:
-        # TODO document
-        return {"values": mapped_values, "indices": indices, "weights": attended_vector}
+        # TODO document, normalize for typing
+        return (
+            "meta",
+            {"values": mapped_values, "indices": indices, "weights": attended_vector},
+        )
 
     return mapped_values[:n_results], indices[:n_results]
 

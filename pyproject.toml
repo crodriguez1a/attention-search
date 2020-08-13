@@ -31,7 +31,7 @@ tqdm = "^4.48.2"
 
 [tool.taskipy.tasks]
 test = "python -m pytest"
-clean = "black . && flake8 . && isort . && mypy . "
+clean = "black src/ && flake8 src/ && isort src/ && mypy src/ "
 
 [build-system]
 requires = ["poetry>=0.12"]
