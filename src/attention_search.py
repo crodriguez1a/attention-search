@@ -16,7 +16,7 @@ def indices_from_weights(
     # first row, faster to slice than to sort on axis
     X: np.ndarray = weights
     ndim = X.ndim
-
+    
     # TODO: dry this up with np.squeeze(ndim)?
     if ndim == 4:
         # argsort, max on top, then retrieve a 1D sub-array from a 4D-array
@@ -25,6 +25,7 @@ def indices_from_weights(
         return np.argsort(X[:, 0, 0], axis=0)[::-1]
     else:
         # argsort, max on top
+        # TODO: more specific to ndim
         if not full_attention:
             return np.argsort(X[0, :])[::-1]
 
@@ -139,7 +140,7 @@ def attention_search(
     attended_vector: np.ndarray = None
 
     # TODO: document __dot__ example
-    mat_product: np.ndarray = __dot__ or mat_mult(query, si, n_results=n_results)
+    mat_product: np.ndarray = __dot__ if __dot__ is not None else mat_mult(query, si, n_results=n_results)
 
     if not full_attention:
         # If dot product is all you need
